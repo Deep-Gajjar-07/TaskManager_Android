@@ -10,8 +10,9 @@
     tools:context=".AddEditActivity">
 
     <TextView
+        android:id="@+id/txtTitlePage"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="100dp"
         android:layout_marginStart="15dp"
         android:fontFamily="@font/inter_semibold"
         android:gravity="bottom"
@@ -96,6 +97,7 @@
             android:id="@+id/chipGroupPriority"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             app:chipSpacingHorizontal="30dp"
             app:selectionRequired="true"
@@ -109,7 +111,7 @@
                 android:text="High"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                app:chipBackgroundColor="@color/pill_bg"
+                app:chipBackgroundColor="@color/smoke_white"
                 app:chipStrokeWidth="1dp" />
 
             <com.google.android.material.chip.Chip
@@ -120,7 +122,7 @@
                 android:text="Medium"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                app:chipBackgroundColor="@color/pill_bg"
+                app:chipBackgroundColor="@color/smoke_white"
                 app:chipStrokeWidth="1dp" />
 
             <com.google.android.material.chip.Chip
@@ -131,7 +133,7 @@
                 android:text="Low"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                app:chipBackgroundColor="@color/pill_bg"
+                app:chipBackgroundColor="@color/smoke_white"
                 app:chipStrokeWidth="1dp" />
 
         </com.google.android.material.chip.ChipGroup>
