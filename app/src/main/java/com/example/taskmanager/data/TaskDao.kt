@@ -11,7 +11,7 @@ import androidx.room.Update
 interface TaskDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertTask(taskEntity: TaskEntity)
+    fun insertTask(taskEntity: TaskEntity) : Long
 
     @Query("SELECT * FROM tasks")
     fun getAllTask(): List<TaskEntity>
