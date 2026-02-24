@@ -38,6 +38,27 @@ class MainActivity : AppCompatActivity() {
         searchViewEdit.setHintTextColor(Color.BLACK)
         searchViewEdit.setTextColor(Color.BLACK)
 
+        searchTask.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                val query = newText?.trim()
+
+                if (query != null) {
+                    val searchList = dataBase.taskDao.searchTask(query)
+                    if (searchList.isEmpty()) {
+                        Toast.makeText(this@MainActivity, "No task found!", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                    taskAdapter.updateList(searchList)
+                }
+                return true
+            }
+
+        })
+
         floatBtn.setOnClickListener {
             startActivity(Intent(this, AddEditActivity::class.java))
         }
