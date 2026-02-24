@@ -5,12 +5,22 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.taskmanager.data.TaskDataBase
+import com.example.taskmanager.data.TaskEntity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
+
+    lateinit var dataBase: TaskDataBase
+    lateinit var taskAdapter: TaskAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -20,7 +30,7 @@ class MainActivity : AppCompatActivity() {
             (View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
 
         val searchTask: SearchView = findViewById(R.id.searchTasks)
-        val floatBtn : FloatingActionButton = findViewById(R.id.floatBtnAddTask)
+        val floatBtn: FloatingActionButton = findViewById(R.id.floatBtnAddTask)
 
         // getting internally EditText of SearchView for Styling
         val searchViewEdit =
@@ -32,5 +42,42 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, AddEditActivity::class.java))
         }
 
+        dataBase = TaskDataBase.getDB(this)
+
+        val ReCycLstTask: RecyclerView = findViewById(R.id.ReCycLstTasks)
+        val taskList = dataBase.taskDao.getAllTask()
+
+        ReCycLstTask.layoutManager = LinearLayoutManager(this)
+        taskAdapter = TaskAdapter(taskList) { task -> showDeleteMessage(task) }
+        ReCycLstTask.adapter = taskAdapter
+
     }
+
+    private fun loadTasks() {
+        val taskList = dataBase.taskDao.getAllTask()
+        taskAdapter.updateList(taskList)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadTasks()
+    }
+
+    private fun showDeleteMessage(taskEntity: TaskEntity) {
+        val dialog = AlertDialog.Builder(this)
+        dialog.setTitle("Delete Task")
+        dialog.setMessage("Are you sure want to delete task :${taskEntity.taskTitle}?")
+        dialog.setPositiveButton("Yes") { _, _ ->
+            dataBase.taskDao.deleteTask(taskEntity)
+            Toast.makeText(this, "Task: ${taskEntity.taskTitle} Deleted!", Toast.LENGTH_SHORT)
+                .show()
+            loadTasks()
+
+        }
+        dialog.setNegativeButton("No") { dialog, _ ->
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
 }
