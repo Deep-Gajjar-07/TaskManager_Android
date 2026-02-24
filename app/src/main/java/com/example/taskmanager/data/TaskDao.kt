@@ -11,7 +11,7 @@ import androidx.room.Update
 interface TaskDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertTask(taskEntity: TaskEntity) : Long
+    fun insertTask(taskEntity: TaskEntity): Long
 
     @Query("SELECT * FROM tasks")
     fun getAllTask(): List<TaskEntity>
@@ -21,5 +21,8 @@ interface TaskDao {
 
     @Update
     fun updateTask(taskEntity: TaskEntity)
+
+    @Query("SELECT * FROM Tasks WHERE taskTitle LIKE '%'||:query||'%'")
+    fun searchTask(query: String): List<TaskEntity>
 
 }
