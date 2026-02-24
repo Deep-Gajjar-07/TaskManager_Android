@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="1dp"
     android:layout_marginEnd="1dp"
-    android:background="@color/white"
+    android:layout_marginBottom="10dp"
+    android:backgroundTint="@color/white"
     app:cardCornerRadius="10dp"
     app:cardElevation="1dp"
     app:contentPadding="10dp">
@@ -13,11 +14,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:orientation="horizontal">
 
             <CheckBox
@@ -36,49 +39,42 @@
 
             <TextView
                 android:id="@+id/txtTaskTitle"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Task Title Here"
+                android:layout_marginBottom="25dp"
+                android:layout_weight="1"
+                android:text="Task Title Here \n2nd line for Test"
                 android:textColor="@color/black"
                 android:textSize="17sp"
                 android:textStyle="bold" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:id="@+id/iconEdit"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="center"
-                android:gravity="end"
-                android:orientation="horizontal">
+                android:layout_marginEnd="10dp"
+                android:alpha="0.5"
+                android:src="@drawable/icon_pen"
+                app:tint="@color/grey" />
 
-                <ImageView
-                    android:id="@+id/iconEdit"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="10dp"
-                    android:alpha="0.5"
-                    android:src="@drawable/icon_pen"
-                    app:tint="@color/grey" />
-
-                <ImageView
-                    android:id="@+id/iconDelete"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="10dp"
-                    android:alpha="0.5"
-                    android:src="@drawable/icon_trash"
-                    app:tint="@color/grey" />
-
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/iconDelete"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                android:alpha="0.5"
+                android:src="@drawable/icon_trash"
+                app:tint="@color/grey" />
 
         </LinearLayout>
 
         <TextView
+            android:id="@+id/txtTaskDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="5dp"
             android:layout_marginEnd="50dp"
             android:text="Task Description Here \ndemo task description"
             android:textColor="@color/grey"
