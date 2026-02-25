@@ -13,7 +13,7 @@ interface TaskDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTask(taskEntity: TaskEntity): Long
 
-    @Query("SELECT * FROM tasks")
+    @Query("SELECT * FROM tasks ORDER BY taskID DESC")
     fun getAllTask(): List<TaskEntity>
 
     @Delete
