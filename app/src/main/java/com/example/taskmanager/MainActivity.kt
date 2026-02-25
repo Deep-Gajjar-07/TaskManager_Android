@@ -69,7 +69,16 @@ class MainActivity : AppCompatActivity() {
         val taskList = dataBase.taskDao.getAllTask()
 
         ReCycLstTask.layoutManager = LinearLayoutManager(this)
-        taskAdapter = TaskAdapter(taskList) { task -> showDeleteMessage(task) }
+        taskAdapter = TaskAdapter(taskList, onDeleteItem = { task ->
+            showDeleteMessage(task)
+        }) { task ->
+            val intent = Intent(this, AddEditActivity::class.java)
+            intent.putExtra("task_id", task.taskID)
+            intent.putExtra("task_title", task.taskTitle)
+            intent.putExtra("task_desc", task.taskDesc)
+            intent.putExtra("task_priority", task.priority)
+            startActivity(intent)
+        }
         ReCycLstTask.adapter = taskAdapter
 
     }
