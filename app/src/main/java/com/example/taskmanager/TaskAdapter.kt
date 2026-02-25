@@ -11,14 +11,16 @@ import com.example.taskmanager.data.TaskEntity
 
 class TaskAdapter(
     private var tasks: List<TaskEntity>,
-    private var onDeleteItem: (TaskEntity) -> Unit
+    private var onDeleteItem: (TaskEntity) -> Unit,
+    private var onEditItem: (TaskEntity) -> Unit
 ) :
     RecyclerView.Adapter<TaskAdapter.TaskVH>() {
 
     class TaskVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.txtTaskTitle)
         val desc: TextView = itemView.findViewById(R.id.txtTaskDesc)
-        val iconDelete : ImageView = itemView.findViewById(R.id.iconDelete)
+        val iconDelete: ImageView = itemView.findViewById(R.id.iconDelete)
+        val iconEdit: ImageView = itemView.findViewById(R.id.iconEdit)
         val priorityDot: ImageView = itemView.findViewById(R.id.iconPriority)
     }
 
@@ -54,6 +56,11 @@ class TaskAdapter(
         // on delete icon click
         holder.iconDelete.setOnClickListener {
             onDeleteItem(i)
+        }
+
+        // on edit icon click
+        holder.iconEdit.setOnClickListener {
+            onEditItem(i)
         }
 
     }
