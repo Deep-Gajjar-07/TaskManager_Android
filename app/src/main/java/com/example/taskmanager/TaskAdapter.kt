@@ -1,8 +1,10 @@
 package com.example.taskmanager
 
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -12,7 +14,8 @@ import com.example.taskmanager.data.TaskEntity
 class TaskAdapter(
     private var tasks: List<TaskEntity>,
     private var onDeleteItem: (TaskEntity) -> Unit,
-    private var onEditItem: (TaskEntity) -> Unit
+    private var onEditItem: (TaskEntity) -> Unit,
+    private val onTaskChecked: (TaskEntity) -> Unit,
 ) :
     RecyclerView.Adapter<TaskAdapter.TaskVH>() {
 
@@ -22,6 +25,7 @@ class TaskAdapter(
         val iconDelete: ImageView = itemView.findViewById(R.id.iconDelete)
         val iconEdit: ImageView = itemView.findViewById(R.id.iconEdit)
         val priorityDot: ImageView = itemView.findViewById(R.id.iconPriority)
+        val checkTask: CheckBox = itemView.findViewById(R.id.checkboxTask)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskVH {
@@ -51,6 +55,25 @@ class TaskAdapter(
             "Low" -> holder.priorityDot.setColorFilter(
                 ContextCompat.getColor(context, R.color.low_pill)
             )
+        }
+
+        // for task completed
+        holder.checkTask.setOnCheckedChangeListener(null)
+        holder.checkTask.isChecked = i.isCompleted
+        if (i.isCompleted) {
+            holder.title.paintFlags = holder.title.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            holder.title.alpha = 0.5f
+            holder.desc.alpha = 0.5f
+        } else {
+            holder.title.paintFlags = holder.title.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+            holder.title.alpha = 1f
+            holder.desc.alpha = 1f
+        }
+
+        // checkbox clicked
+        holder.checkTask.setOnCheckedChangeListener { _, isChecked ->
+            val updateTask = i.copy(isCompleted = isChecked)
+            onTaskChecked(updateTask)
         }
 
         // on delete icon click
