@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
 
         val searchTask: SearchView = findViewById(R.id.searchTasks)
         val floatBtn: FloatingActionButton = findViewById(R.id.floatBtnAddTask)
+        val imgBtnDelete: ImageButton = findViewById(R.id.imgBtnDelete)
 
         // getting internally EditText of SearchView for Styling
         val searchViewEdit =
@@ -87,6 +89,38 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             })
         )
+
+        imgBtnDelete.setOnClickListener {
+            val dialogBox = AlertDialog.Builder(this)
+            dialogBox.setTitle("Delete All Tasks")
+            dialogBox.setMessage("Are you sure want to delete all tasks?")
+            dialogBox.setPositiveButton("Yes") { _, _ ->
+                try {
+                    val deleteCount = dataBase.taskDao.deleteAllTasks()
+                    if (deleteCount > 0) {
+                        Toast.makeText(this, "All $deleteCount tasks deleted!!", Toast.LENGTH_SHORT)
+                            .show()
+                        loadTasks()
+                    } else {
+                        Toast.makeText(this, "No tasks available to delete!", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                } catch (_: Exception) {
+                    Toast.makeText(this, "Failed To Delete Tasks!!!", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            dialogBox.setNegativeButton("No") { dialogBox, _ ->
+                dialogBox.dismiss()
+            }
+
+            dialogBox.show()
+        }
+
+        if (taskList.isEmpty()) {
+            imgBtnDelete.isEnabled = false
+            imgBtnDelete.alpha = 0.5f
+        }
 
         ReCycLstTask.adapter = taskAdapter
 
