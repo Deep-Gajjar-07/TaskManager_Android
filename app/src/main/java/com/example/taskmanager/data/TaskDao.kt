@@ -25,4 +25,16 @@ interface TaskDao {
     @Query("SELECT * FROM Tasks WHERE taskTitle LIKE '%'||:query||'%'")
     fun searchTask(query: String): List<TaskEntity>
 
+    @Query("DELETE FROM Tasks")
+    fun deleteAllTasks(): Int
+
+    @Query("SELECT * FROM Tasks WHERE isCompleted = 1")
+    fun getCompletedTasks(): List<TaskEntity>
+
+    @Query("SELECT * FROM Tasks WHERE isCompleted = 0")
+    fun getPendingTasks(): List<TaskEntity>
+
+    @Query("SELECT * FROM Tasks WHERE priority = :priority")
+    fun getTasksByPriority(priority: String): List<TaskEntity>
+
 }
