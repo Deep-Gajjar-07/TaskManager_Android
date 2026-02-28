@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskmanager.data.TaskDataBase
 import com.example.taskmanager.data.TaskEntity
+import com.google.android.material.chip.ChipGroup
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
@@ -33,6 +35,8 @@ class MainActivity : AppCompatActivity() {
         val searchTask: SearchView = findViewById(R.id.searchTasks)
         val floatBtn: FloatingActionButton = findViewById(R.id.floatBtnAddTask)
         val imgBtnDelete: ImageButton = findViewById(R.id.imgBtnDelete)
+        val chipGroup: ChipGroup = findViewById(R.id.taskFilterChipGroup)
+        val message: TextView = findViewById(R.id.txtMessage)
 
         // getting internally EditText of SearchView for Styling
         val searchViewEdit =
@@ -51,8 +55,10 @@ class MainActivity : AppCompatActivity() {
                 if (query != null) {
                     val searchList = dataBase.taskDao.searchTask(query)
                     if (searchList.isEmpty()) {
-                        Toast.makeText(this@MainActivity, "No task found!", Toast.LENGTH_SHORT)
-                            .show()
+                        message.text = "No Search Tasks Found!"
+                        message.visibility = View.VISIBLE
+                    }else{
+                        message.visibility = View.GONE
                     }
                     taskAdapter.updateList(searchList)
                 }
@@ -69,6 +75,22 @@ class MainActivity : AppCompatActivity() {
 
         val ReCycLstTask: RecyclerView = findViewById(R.id.ReCycLstTasks)
         val taskList = dataBase.taskDao.getAllTask()
+
+        // chip group selecting by chip for filter tasks
+        chipGroup.setOnCheckedChangeListener { _, checkedID ->
+            val list = when (checkedID) {
+                R.id.filterChipAll -> dataBase.taskDao.getAllTask()
+                R.id.filterChipCompleted -> dataBase.taskDao.getCompletedTasks()
+                R.id.filterChipPending -> dataBase.taskDao.getPendingTasks()
+                R.id.filterChipHigh -> dataBase.taskDao.getTasksByPriority("High")
+                R.id.filterChipMedium -> dataBase.taskDao.getTasksByPriority("Medium")
+                R.id.filterChipLow -> dataBase.taskDao.getTasksByPriority("Low")
+                else -> dataBase.taskDao.getAllTask()
+            }
+            taskAdapter.updateList(list)
+            taskAdapter.notifyDataSetChanged()
+        }
+
 
         ReCycLstTask.layoutManager = LinearLayoutManager(this)
         taskAdapter = TaskAdapter(
@@ -89,6 +111,7 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             })
         )
+
 
         imgBtnDelete.setOnClickListener {
             val dialogBox = AlertDialog.Builder(this)
@@ -120,10 +143,11 @@ class MainActivity : AppCompatActivity() {
         if (taskList.isEmpty()) {
             imgBtnDelete.isEnabled = false
             imgBtnDelete.alpha = 0.5f
+            message.visibility = View.VISIBLE
         }
 
         ReCycLstTask.adapter = taskAdapter
-
+        loadTasks()
     }
 
     private fun loadTasks() {
