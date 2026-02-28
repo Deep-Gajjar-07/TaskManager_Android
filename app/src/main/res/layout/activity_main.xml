@@ -8,6 +8,19 @@
     android:background="@color/smoke_white"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/txtMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/inter"
+        android:text="No Tasks Available!"
+        android:textColor="@color/grey"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        tools:ignore="HardcodedText" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -73,7 +86,7 @@
             android:scrollbars="none">
 
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/taskFilterChip"
+                android:id="@+id/taskFilterChipGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:chipSpacing="10dp"
@@ -85,6 +98,7 @@
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="true"
                     android:fontFamily="@font/inter"
                     android:text="All Tasks"
                     android:textColor="@color/chip_text_selector"
