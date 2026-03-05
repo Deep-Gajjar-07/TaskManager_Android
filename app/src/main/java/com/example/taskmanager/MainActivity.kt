@@ -1,6 +1,7 @@
 package com.example.taskmanager
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -11,6 +12,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -37,12 +39,23 @@ class MainActivity : AppCompatActivity() {
         val imgBtnDelete: ImageButton = findViewById(R.id.imgBtnDelete)
         val chipGroup: ChipGroup = findViewById(R.id.taskFilterChipGroup)
         val message: TextView = findViewById(R.id.txtMessage)
+        val imgBtnToggle: ImageButton = findViewById(R.id.imgBtnToggleTheme)
+
+        dataBase = TaskDataBase.getDB(this)
 
         // getting internally EditText of SearchView for Styling
         val searchViewEdit =
             searchTask.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
         searchViewEdit.setHintTextColor(Color.BLACK)
         searchViewEdit.setTextColor(Color.BLACK)
+
+        // set the icon after activity restart
+        val nightModeFlags = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
+            imgBtnToggle.setImageResource(R.drawable.icon_lightbulb)
+        } else {
+            imgBtnToggle.setImageResource(R.drawable.icon_moon)
+        }
 
         searchTask.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -57,7 +70,7 @@ class MainActivity : AppCompatActivity() {
                     if (searchList.isEmpty()) {
                         message.text = "No Search Tasks Found!"
                         message.visibility = View.VISIBLE
-                    }else{
+                    } else {
                         message.visibility = View.GONE
                     }
                     taskAdapter.updateList(searchList)
@@ -67,11 +80,21 @@ class MainActivity : AppCompatActivity() {
 
         })
 
+        // toggle theme for dark / light mode
+        imgBtnToggle.setOnClickListener {
+            val currentMode = AppCompatDelegate.getDefaultNightMode()
+
+            if (currentMode == AppCompatDelegate.MODE_NIGHT_YES) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }
+
+        }
+
         floatBtn.setOnClickListener {
             startActivity(Intent(this, AddEditActivity::class.java))
         }
-
-        dataBase = TaskDataBase.getDB(this)
 
         val ReCycLstTask: RecyclerView = findViewById(R.id.ReCycLstTasks)
         val taskList = dataBase.taskDao.getAllTask()
