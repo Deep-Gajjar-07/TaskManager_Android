@@ -52,7 +52,7 @@
                 android:layout_gravity="bottom"
                 android:layout_marginEnd="15dp"
                 android:background="@color/backgroundColor"
-                android:src="@drawable/icon_circle_half_stroke" />
+                android:src="@drawable/icon_moon" />
 
         </LinearLayout>
 
