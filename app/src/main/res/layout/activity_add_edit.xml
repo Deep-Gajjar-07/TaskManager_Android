@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/smoke_white"
+    android:background="@color/backgroundColor"
     android:orientation="vertical"
     tools:context=".AddEditActivity">
 
@@ -17,7 +17,7 @@
         android:fontFamily="@font/inter_semibold"
         android:gravity="bottom"
         android:text="New Task"
-        android:textColor="@color/black"
+        android:textColor="@color/textColor"
         android:textSize="25sp"
         android:textStyle="bold" />
 
@@ -109,9 +109,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="High"
-                android:textColor="@color/black"
+                android:textColor="@color/textColor"
                 android:textSize="16sp"
-                app:chipBackgroundColor="@color/smoke_white"
+                app:chipBackgroundColor="@color/backgroundColor"
                 app:chipStrokeWidth="1dp" />
 
             <com.google.android.material.chip.Chip
@@ -120,9 +120,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Medium"
-                android:textColor="@color/black"
+                android:textColor="@color/textColor"
                 android:textSize="16sp"
-                app:chipBackgroundColor="@color/smoke_white"
+                app:chipBackgroundColor="@color/backgroundColor"
                 app:chipStrokeWidth="1dp" />
 
             <com.google.android.material.chip.Chip
@@ -131,9 +131,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Low"
-                android:textColor="@color/black"
+                android:textColor="@color/textColor"
                 android:textSize="16sp"
-                app:chipBackgroundColor="@color/smoke_white"
+                app:chipBackgroundColor="@color/backgroundColor"
                 app:chipStrokeWidth="1dp" />
 
         </com.google.android.material.chip.ChipGroup>
