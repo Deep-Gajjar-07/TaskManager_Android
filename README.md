@@ -5,7 +5,7 @@ A Task Manager Application (To-Do like app) for add, update, and delete tasks an
 - Add New Task
 - Edit Existing Task
 - Delete Task with alert dialog box
-- Search Tasks By title / name
+- Search Tasks By title 
 - Set Task priority (High/ Medium/ Low)
 - Filter Tasks by completed, pending and priority
 - Delete All Tasks at once with alert dialog box!
